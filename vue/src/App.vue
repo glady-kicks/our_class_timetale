@@ -1,30 +1,42 @@
+# App.vue
+
+```vue
 <template>
-  <div>
-    <h1>L3SOD B Timetable</h1>
+  <div class="container">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Day / Time</th>
-          <th v-for="(col, i) in headers" :key="i" :class="getClass(col)">
-            {{ col }}
-          </th>
-        </tr>
-      </thead>
+    <h1>🎓 L3SOD B  Timetable</h1>
 
-      <tbody>
-        <tr v-for="day in timetable" :key="day.name">
-          <td>{{ day.name }}</td>
-          <td
-            v-for="(lesson, i) in day.lessons"
-            :key="i"
-            :class="getClass(headers[i])"
-          >
-            {{ lesson }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- DAYS -->
+    <div class="days-container">
+
+      <div
+        v-for="day in timetable"
+        :key="day.name"
+        class="day-card"
+        @click="openDay(day)"
+      >
+        {{ day.name }}
+      </div>
+
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div v-if="selectedDay" class="activity-box">
+
+      <h2>
+        {{ selectedDay.name }} Activities
+      </h2>
+
+      <div
+        v-for="(lesson, index) in selectedDay.lessons"
+        :key="index"
+        class="activity-link"
+      >
+        🔗 {{ headers[index] }} → {{ lesson }}
+      </div>
+
+    </div>
+
   </div>
 </template>
 
@@ -32,124 +44,221 @@
 export default {
   data() {
     return {
+
+      selectedDay: null,
+
       headers: [
-        "08:00","09:00","10:00","11:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
         "Break",
-        "11:30","12:30",
+        "11:30",
+        "12:30",
         "Lunch",
-        "14:00","15:00",
+        "14:00",
+        "15:00",
         "Break",
-        "15:30","16:30"
+        "15:30",
+        "16:30"
       ],
 
       timetable: [
+
         {
-          name: "Mo",
+          name: "Monday",
           lessons: [
-            "UIUX","UIUX","DJF","DGV",
+            "UIUX",
+            "UIUX",
+            "DJF",
+            "DGV",
             "Break",
-            "MATH","DJF",
+            "MATH",
+            "DJF",
             "Lunch",
-            "UIUX","GD",
+            "UIUX",
+            "GD",
             "Break",
-            "DGV","DJF"
+            "DGV",
+            "DJF"
           ]
         },
+
         {
-          name: "Tu",
+          name: "Tuesday",
           lessons: [
-            "DJF","DJF","DJF","DJF",
+            "DJF",
+            "DJF",
+            "DJF",
+            "DJF",
             "Break",
-            "CL","UIUX",
+            "CL",
+            "UIUX",
             "Lunch",
-            "DGV","VC Prac",
+            "DGV",
+            "VC Prac",
             "Break",
-            "UIUX","DJF"
+            "UIUX",
+            "DJF"
           ]
         },
+
         {
-          name: "We",
+          name: "Wednesday",
           lessons: [
-            "VC","UIUX",
-            "DGV","DJF",
+            "VC",
+            "UIUX",
+            "DGV",
+            "DJF",
             "Break",
-            "UIUX","DGV",
+            "UIUX",
+            "DGV",
             "Lunch",
-            "DJF","MATH",
+            "DJF",
+            "MATH",
             "Break",
-            "UIUX","DGV"
+            "UIUX",
+            "DGV"
           ]
         },
+
         {
-          name: "Th",
+          name: "Thursday",
           lessons: [
-            "UIUX","DGV",
-            "DJF","DJF",
+            "UIUX",
+            "DGV",
+            "DJF",
+            "DJF",
             "Break",
-            "PHY","UIUX",
+            "PHY",
+            "UIUX",
             "Lunch",
-            "DGV","DJF",
+            "DGV",
+            "DJF",
             "Break",
-            "UIUX","DGV"
+            "UIUX",
+            "DGV"
           ]
         },
+
         {
-          name: "Fr",
+          name: "Friday",
           lessons: [
-            "DGV","UIUX",
-            "FR","DJF",
+            "DGV",
+            "UIUX",
+            "FR",
+            "DJF",
             "Break",
-            "UIUX","DGV",
+            "UIUX",
+            "DGV",
             "Lunch",
-            "DJF","UIUX",
+            "DJF",
+            "UIUX",
             "Break",
-            "DGV","DJF"
+            "DGV",
+            "DJF"
           ]
         }
+
       ]
     };
   },
 
   methods: {
-    getClass(item) {
-      if (item === "Break") return "break";
-      if (item === "Lunch") return "lunch";
-      return "";
+
+    openDay(day) {
+      this.selectedDay = day;
     }
+
   }
 };
 </script>
 
 <style>
-body {
-  font-family: Arial;
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0f172a;
 }
 
-h1 {
-  text-align: center;
+.container{
+  padding:40px;
+  text-align:center;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
+h1{
+  color:white;
+  margin-bottom:40px;
+  font-size:40px;
 }
 
-th, td {
-  border: 1px solid rgb(228, 219, 219);
-  padding: 6px;
-  text-align: center;
+/* 3D DAY CARDS */
+
+.days-container{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
 }
 
-th {
-  background-color: lightblue;
+.day-card{
+  width:180px;
+  height:120px;
+  background:linear-gradient(145deg,#2563eb,#06b6d4);
+  color:white;
+  font-size:24px;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  cursor:pointer;
+  transform:perspective(1000px) rotateX(10deg);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.4),
+    inset 0 2px 5px rgba(255,255,255,0.3);
+  transition:0.3s;
 }
 
-.break {
-  background-color: rgb(15, 194, 226);
+.day-card:hover{
+  transform:perspective(1000px) rotateX(0deg) scale(1.08);
 }
 
-.lunch {
-  background-color: rgb(10, 169, 180);
-  color: white;
+/* ACTIVITIES */
+
+.activity-box{
+  margin-top:40px;
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
+
+.activity-box h2{
+  color:#2563eb;
+  margin-bottom:20px;
+}
+
+.activity-link{
+  background:#eff6ff;
+  margin:10px 0;
+  padding:15px;
+  border-radius:12px;
+  font-weight:bold;
+  color:#1e293b;
+  transition:0.3s;
+  cursor:pointer;
+}
+
+.activity-link:hover{
+  background:#2563eb;
+  color:white;
+  transform:translateX(8px);
+}
+
 </style>
+```
